@@ -3,17 +3,21 @@
 #set( $symbol_escape = '\' )
 package ${package};
 
-import javax.servlet.GenericServlet;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @WebServlet(value="/hello", name="helloServlet")
-public class HelloServlet extends GenericServlet {
-    @Override
-    public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
-        res.getWriter().println("Hello world!!");
-    }
+public class HelloServlet extends BaseHttpServlet {
+
+	private static final long serialVersionUID = 1L;
+
+	@Override
+	public void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("message", "Hello world!");
+		request.getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
+	}
 }
